@@ -43,16 +43,12 @@ namespace Tests {
 												  NOW.Hour, NOW.Minute, NOW.Second, DateTimeKind.Unspecified);
 		//static DateTime TEST_DATE = new DateTime (2016, 02, 09, 10, 11, 12, DateTimeKind.Unspecified);
 
-		public TestProgram ()
-		{
-		}
-
 		static void Main (string[] args)
 		{
 			StampTest ();
-			// GetStampTest ();
-			// CancelTest ();
-			// SaveIssuerTest ();
+//			GetStampTest ();
+//			CancelTest ();
+//			SaveIssuerTest ();
 		}
 
 		static void StampTest ()

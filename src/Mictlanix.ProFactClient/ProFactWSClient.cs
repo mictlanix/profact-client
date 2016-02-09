@@ -18,13 +18,13 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "3.0.0.0")]
     [System.Runtime.Serialization.CollectionDataContractAttribute(Name="ArrayOfAnyType", Namespace="http://localhost/", ItemName="anyType")]
-    public class ArrayOfAnyType : System.Collections.Generic.List<object>
+	internal class ArrayOfAnyType : System.Collections.Generic.List<object>
     {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://localhost/", ConfigurationName="Mictlanix.ProFact.Client.Internals.TimbradoSoap")]
-    public interface TimbradoSoap
+	internal interface TimbradoSoap
     {
         
         // CODEGEN: Generating message contract since element name usuarioIntegrador from namespace http://localhost/ is not marked nillable
@@ -63,7 +63,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class RegistraEmisorRequest
+	internal partial class RegistraEmisorRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="RegistraEmisor", Namespace="http://localhost/", Order=0)]
@@ -82,7 +82,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class RegistraEmisorRequestBody
+	internal partial class RegistraEmisorRequestBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -117,7 +117,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class RegistraEmisorResponse
+	internal partial class RegistraEmisorResponse
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="RegistraEmisorResponse", Namespace="http://localhost/", Order=0)]
@@ -136,7 +136,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class RegistraEmisorResponseBody
+	internal partial class RegistraEmisorResponseBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -155,7 +155,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class TimbraRetencionRequest
+	internal partial class TimbraRetencionRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="TimbraRetencion", Namespace="http://localhost/", Order=0)]
@@ -174,7 +174,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class TimbraRetencionRequestBody
+	internal partial class TimbraRetencionRequestBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -201,7 +201,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class TimbraRetencionResponse
+	internal partial class TimbraRetencionResponse
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="TimbraRetencionResponse", Namespace="http://localhost/", Order=0)]
@@ -220,7 +220,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class TimbraRetencionResponseBody
+	internal partial class TimbraRetencionResponseBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -239,7 +239,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class TimbraCFDIRequest
+	internal partial class TimbraCFDIRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="TimbraCFDI", Namespace="http://localhost/", Order=0)]
@@ -258,7 +258,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class TimbraCFDIRequestBody
+	internal partial class TimbraCFDIRequestBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -285,7 +285,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class TimbraCFDIResponse
+	internal partial class TimbraCFDIResponse
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="TimbraCFDIResponse", Namespace="http://localhost/", Order=0)]
@@ -304,7 +304,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class TimbraCFDIResponseBody
+	internal partial class TimbraCFDIResponseBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -323,7 +323,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class CancelaCFDIRequest
+	internal partial class CancelaCFDIRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="CancelaCFDI", Namespace="http://localhost/", Order=0)]
@@ -342,7 +342,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class CancelaCFDIRequestBody
+	internal partial class CancelaCFDIRequestBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -369,7 +369,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class CancelaCFDIResponse
+	internal partial class CancelaCFDIResponse
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="CancelaCFDIResponse", Namespace="http://localhost/", Order=0)]
@@ -388,7 +388,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class CancelaCFDIResponseBody
+	internal partial class CancelaCFDIResponseBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -407,7 +407,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class CancelaCFDIAckRequest
+	internal partial class CancelaCFDIAckRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="CancelaCFDIAck", Namespace="http://localhost/", Order=0)]
@@ -426,7 +426,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class CancelaCFDIAckRequestBody
+	internal partial class CancelaCFDIAckRequestBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -453,7 +453,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class CancelaCFDIAckResponse
+	internal partial class CancelaCFDIAckResponse
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="CancelaCFDIAckResponse", Namespace="http://localhost/", Order=0)]
@@ -472,7 +472,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class CancelaCFDIAckResponseBody
+	internal partial class CancelaCFDIAckResponseBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -491,7 +491,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class CancelaRetencionRequest
+	internal partial class CancelaRetencionRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="CancelaRetencion", Namespace="http://localhost/", Order=0)]
@@ -510,7 +510,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class CancelaRetencionRequestBody
+	internal partial class CancelaRetencionRequestBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -537,7 +537,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class CancelaRetencionResponse
+	internal partial class CancelaRetencionResponse
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="CancelaRetencionResponse", Namespace="http://localhost/", Order=0)]
@@ -556,7 +556,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class CancelaRetencionResponseBody
+	internal partial class CancelaRetencionResponseBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -575,7 +575,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class ObtieneCFDIRequest
+	internal partial class ObtieneCFDIRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="ObtieneCFDI", Namespace="http://localhost/", Order=0)]
@@ -594,7 +594,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class ObtieneCFDIRequestBody
+	internal partial class ObtieneCFDIRequestBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -621,7 +621,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class ObtieneCFDIResponse
+	internal partial class ObtieneCFDIResponse
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="ObtieneCFDIResponse", Namespace="http://localhost/", Order=0)]
@@ -640,7 +640,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class ObtieneCFDIResponseBody
+	internal partial class ObtieneCFDIResponseBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -659,7 +659,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class ObtieneRetencionRequest
+	internal partial class ObtieneRetencionRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="ObtieneRetencion", Namespace="http://localhost/", Order=0)]
@@ -678,7 +678,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class ObtieneRetencionRequestBody
+	internal partial class ObtieneRetencionRequestBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -705,7 +705,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class ObtieneRetencionResponse
+	internal partial class ObtieneRetencionResponse
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="ObtieneRetencionResponse", Namespace="http://localhost/", Order=0)]
@@ -724,7 +724,7 @@ namespace Mictlanix.ProFact.Client.Internals
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Namespace="http://localhost/")]
-    public partial class ObtieneRetencionResponseBody
+	internal partial class ObtieneRetencionResponseBody
     {
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
@@ -741,13 +741,13 @@ namespace Mictlanix.ProFact.Client.Internals
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    public interface TimbradoSoapChannel : Mictlanix.ProFact.Client.Internals.TimbradoSoap, System.ServiceModel.IClientChannel
+	internal interface TimbradoSoapChannel : Mictlanix.ProFact.Client.Internals.TimbradoSoap, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "3.0.0.0")]
-    public partial class TimbradoSoapClient : System.ServiceModel.ClientBase<Mictlanix.ProFact.Client.Internals.TimbradoSoap>, Mictlanix.ProFact.Client.Internals.TimbradoSoap
+	internal partial class TimbradoSoapClient : System.ServiceModel.ClientBase<Mictlanix.ProFact.Client.Internals.TimbradoSoap>, Mictlanix.ProFact.Client.Internals.TimbradoSoap
     {
         
         public TimbradoSoapClient()
