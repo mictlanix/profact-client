@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mictlanix.ProFactClient", "src\Mictlanix.ProFactClient\Mictlanix.ProFactClient.csproj", "{028908AA-1FC8-49ED-83F9-B3E36EFF20C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "test\Tests.csproj", "{0AB01C0E-2D62-4101-BFA1-6FF347816D90}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{028908AA-1FC8-49ED-83F9-B3E36EFF20C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{028908AA-1FC8-49ED-83F9-B3E36EFF20C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{028908AA-1FC8-49ED-83F9-B3E36EFF20C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{028908AA-1FC8-49ED-83F9-B3E36EFF20C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AB01C0E-2D62-4101-BFA1-6FF347816D90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AB01C0E-2D62-4101-BFA1-6FF347816D90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AB01C0E-2D62-4101-BFA1-6FF347816D90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AB01C0E-2D62-4101-BFA1-6FF347816D90}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
