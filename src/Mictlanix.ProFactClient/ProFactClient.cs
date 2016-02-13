@@ -39,9 +39,9 @@ using Mictlanix.ProFact.Client.Internals;
 namespace Mictlanix.ProFact.Client {
 	public class ProFactClient {
 		public static string URL_PRODUCTION = @"https://www.timbracfdi.mx/serviciointegracion/Timbrado.asmx";
-		public static string URL_TEST 		= @"https://www.timbracfdipruebas.mx/serviciointegracionpruebas/Timbrado.asmx";
+		public static string URL_TEST		= @"https://www.timbracfdipruebas.mx/serviciointegracionpruebas/Timbrado.asmx";
 
-		static readonly BasicHttpBinding binding = new BasicHttpBinding {
+		static readonly BasicHttpBinding binding = new BasicHttpBinding(BasicHttpSecurityMode.Transport) {
 			MaxBufferPoolSize = int.MaxValue,
 			MaxReceivedMessageSize = int.MaxValue,
 			ReaderQuotas = new XmlDictionaryReaderQuotas {
