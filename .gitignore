@@ -6,3 +6,4 @@ obj
 *.pidb
 *.user
 *.resources
+*.nupkg
