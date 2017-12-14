@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text;
-using Mictlanix.CFDv32;
+using Mictlanix.CFDv33;
 using Mictlanix.ProFact.Client;
 
 namespace Tests {
@@ -40,7 +40,7 @@ namespace Tests {
 
 		static DateTime NOW = DateTime.Now;
 		static DateTime TEST_DATE = new DateTime (NOW.Year, NOW.Month, NOW.Day,
-												  NOW.Hour, NOW.Minute, NOW.Second, DateTimeKind.Unspecified);
+							  NOW.Hour, NOW.Minute, NOW.Second, DateTimeKind.Unspecified);
 		//static DateTime TEST_DATE = new DateTime (2016, 02, 09, 10, 11, 12, DateTimeKind.Unspecified);
 
 		static void Main (string[] args)
@@ -101,29 +101,26 @@ namespace Tests {
 		static Comprobante CreateCFD()
 		{
 			var cfd = new Comprobante {
-				tipoDeComprobante = ComprobanteTipoDeComprobante.ingreso,
-				serie = "A",
-				folio = "1",
-				fecha = TEST_DATE,
-				LugarExpedicion = "México, DF",
-				metodoDePago = "Efectivo",
-				formaDePago = "PAGO EN UNA SOLA EXHIBICION",
-				TipoCambio = (1m).ToString(),
+				TipoDeComprobante = c_TipoDeComprobante.Ingreso,
+				Serie = "A",
+				Folio = "1",
+				Fecha = TEST_DATE,
+				LugarExpedicion = "03810", // código postal
+				MetodoPago = c_MetodoPago.PagoEnUnaSolaExhibicion,
+				FormaPago = c_FormaPago.Efectivo,
+				TipoCambio = 1m,
 				Moneda = "MXN",
-				noCertificado = "20001000000200001428",
-				certificado = Convert.ToBase64String (File.ReadAllBytes (CSD_CERTIFICATE_FILE)),
+				NoCertificado = "20001000000200001428",
+				Certificado = Convert.ToBase64String (File.ReadAllBytes (CSD_CERTIFICATE_FILE)),
 				Emisor = new ComprobanteEmisor {
-					rfc = "AAA010101AAA",
-					nombre = "ACME SC",
-					RegimenFiscal = new ComprobanteEmisorRegimenFiscal[] {
-						new ComprobanteEmisorRegimenFiscal {
-							Regimen = "Régimen General de Ley Personas Morales"
-						}
-					},
+					Rfc = "AAA010101AAA",
+					Nombre = "ACME SC",
+					RegimenFiscal = c_RegimenFiscal.GeneralDeLeyPersonasMorales,
 				},
 				Receptor = new ComprobanteReceptor {
-					rfc = "XAXX010101000",
-					nombre = "DEMO COMPANY SC"
+					Rfc = "XAXX010101000",
+					Nombre = "DEMO COMPANY SC",
+					UsoCFDI = c_UsoCFDI.AdquisicionDeMercancias
 				},
 				Impuestos = new ComprobanteImpuestos()
 			};
@@ -144,23 +141,41 @@ namespace Tests {
 				cfd.Conceptos = items;
 			}
 
-			cfd.Conceptos[count-1] = new ComprobanteConcepto {
-				cantidad = qty,
-				unidad = "N/A",
-				noIdentificacion = code,
-				descripcion = name,
-				valorUnitario = amount,
-				importe = Math.Round(qty * amount, 2)
+			cfd.Conceptos[count - 1] = new ComprobanteConcepto {
+				Cantidad = qty,
+				ClaveUnidad = "H87",
+				Unidad = "Pieza",
+				NoIdentificacion = code,
+				ClaveProdServ = "52161500",
+				Descripcion = name,
+				ValorUnitario = amount,
+				Importe = Math.Round(qty * amount, 6),
+				Impuestos = new ComprobanteConceptoImpuestos {
+					Traslados = new ComprobanteConceptoImpuestosTraslado[] {
+						new ComprobanteConceptoImpuestosTraslado {
+							Impuesto = c_Impuesto.IVA,
+							TipoFactor = c_TipoFactor.Tasa,
+							Base = Math.Round(qty * amount, 6),
+							Importe = Math.Round(qty * amount * 0.16m, 6),
+							ImporteSpecified = true,
+							TasaOCuota = 0.160000m,
+							TasaOCuotaSpecified = true
+						}
+					}
+				}
 			};
 
-			cfd.subTotal = cfd.Conceptos.Sum (x => x.importe);
-			cfd.total = Math.Round (cfd.subTotal * 1.16m, 2);
+			cfd.SubTotal = cfd.Conceptos.Sum (x => x.Importe);
+			cfd.Total = Math.Round (cfd.SubTotal * 1.16m, 6);
 
+			cfd.Impuestos.TotalImpuestosTrasladados = cfd.Total - cfd.SubTotal;
+			cfd.Impuestos.TotalImpuestosTrasladadosSpecified = true;
 			cfd.Impuestos.Traslados = new ComprobanteImpuestosTraslado[] {
 				new ComprobanteImpuestosTraslado {
-					impuesto = ComprobanteImpuestosTrasladoImpuesto.IVA,
-					importe = cfd.total - cfd.subTotal,
-					tasa = 16
+					Impuesto = c_Impuesto.IVA,
+					TipoFactor = c_TipoFactor.Tasa,
+					Importe = cfd.Total - cfd.SubTotal,
+					TasaOCuota = 0.160000m
 				}
 			};
 		}
@@ -173,24 +188,42 @@ namespace Tests {
 
 			for(int i = 1; i <= count; i++) {
 				cfd.Conceptos[i-1] = new ComprobanteConcepto {
-					cantidad = i,
-					unidad = "N/A",
-					noIdentificacion = string.Format("P{0:D4}", i),
-					descripcion = string.Format("{0} {1:D4}", prefix, i),
-					valorUnitario = 5m * i,
-					importe = 5m * i * i
+					Cantidad = i,
+					ClaveUnidad = "H87",
+					Unidad = "Pieza",
+					NoIdentificacion = string.Format("P{0:D4}", i),
+					ClaveProdServ = "52161500",
+					Descripcion = string.Format("{0} {1:D4}", prefix, i),
+					ValorUnitario = 5m * i,
+					Importe = 5m * i * i,
+					Impuestos = new ComprobanteConceptoImpuestos {
+						Traslados = new ComprobanteConceptoImpuestosTraslado[] {
+							new ComprobanteConceptoImpuestosTraslado {
+								Impuesto = c_Impuesto.IVA,
+								TipoFactor = c_TipoFactor.Tasa,
+								Base = Math.Round(5m * i * i, 6),
+								Importe = Math.Round(5m * i * i * 0.16m, 6),
+								ImporteSpecified = true,
+								TasaOCuota = 0.160000m,
+								TasaOCuotaSpecified = true
+							}
+						}
+					}
 				};
 				sum += 5m * i * i;
 			}
 
-			cfd.subTotal = sum;
-			cfd.total = Math.Round(sum * 1.16m, 2);
+			cfd.SubTotal = sum;
+			cfd.Total = Math.Round(sum * 1.16m, 6);
 
+			cfd.Impuestos.TotalImpuestosTrasladados = cfd.Total - cfd.SubTotal;
+			cfd.Impuestos.TotalImpuestosTrasladadosSpecified = true;
 			cfd.Impuestos.Traslados = new ComprobanteImpuestosTraslado[] {
 				new ComprobanteImpuestosTraslado {
-					impuesto = ComprobanteImpuestosTrasladoImpuesto.IVA,
-					importe = cfd.total - cfd.subTotal,
-					tasa = 16
+					Impuesto = c_Impuesto.IVA,
+					TipoFactor = c_TipoFactor.Tasa,
+					Importe = cfd.Total - cfd.SubTotal,
+					TasaOCuota = 0.160000m
 				}
 			};
 		}

@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle ("Mictlanix ProFact Client")]
 [assembly: AssemblyDescription (".NET client library for ProFact web services (ProFact.com.mx)")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("Mictlanix")]
+[assembly: AssemblyCompany ("Mictlanix SAS de CV")]
 [assembly: AssemblyProduct ("ProFact Client")]
-[assembly: AssemblyCopyright ("Copyright © 2016 Eddy Zavaleta, Mictlanix, and contributors.")]
+[assembly: AssemblyCopyright ("Copyright © 2017 Mictlanix SAS de CV")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 
@@ -17,4 +17,6 @@ using System.Runtime.CompilerServices;
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
 
-[assembly: AssemblyVersion("0.1.0")]
+[assembly: AssemblyVersion ("3.2.99")]
+[assembly: AssemblyFileVersion ("3.2.99")]
+[assembly: AssemblyInformationalVersion ("3.3.0-beta")]

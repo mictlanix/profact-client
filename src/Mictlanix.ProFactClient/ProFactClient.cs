@@ -1,10 +1,10 @@
 ﻿//
-// FelClient.cs
+// ProFactClient.cs
 //
 // Author:
 //       Eddy Zavaleta <eddy@mictlanix.com>
 //
-// Copyright (c) 2016 Eddy Zavaleta, Mictlanix, and contributors.
+// Copyright (c) 2016-2017 Mictlanix SAS de CV and contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,16 +32,17 @@ using System.ServiceModel;
 using System.Text;
 using System.Security;
 using System.Xml;
-using Mictlanix.CFDv32;
+using Mictlanix.CFDv33;
 using Mictlanix.CFDLib;
 using Mictlanix.ProFact.Client.Internals;
 
 namespace Mictlanix.ProFact.Client {
 	public class ProFactClient {
 		public static string URL_PRODUCTION = @"https://www.timbracfdi.mx/serviciointegracion/Timbrado.asmx";
-		public static string URL_TEST		= @"https://www.timbracfdipruebas.mx/serviciointegracionpruebas/Timbrado.asmx";
+		public static string URL_TEST = @"https://cfdi33-pruebas.buzoncfdi.mx:1443/Timbrado.asmx";
+		//public static string URL_TEST = @"https://www.timbracfdipruebas.mx/serviciointegracionpruebas/Timbrado.asmx";
 
-		static readonly BasicHttpBinding binding = new BasicHttpBinding(BasicHttpSecurityMode.Transport) {
+		static readonly BasicHttpBinding binding = new BasicHttpBinding (BasicHttpSecurityMode.Transport) {
 			MaxBufferPoolSize = int.MaxValue,
 			MaxReceivedMessageSize = int.MaxValue,
 			ReaderQuotas = new XmlDictionaryReaderQuotas {
@@ -65,14 +66,14 @@ namespace Mictlanix.ProFact.Client {
 			Username = username;
 			Url = url;
 
-			ServicePointManager.ServerCertificateValidationCallback = 
+			ServicePointManager.ServerCertificateValidationCallback =
 				(object sp, X509Certificate c, X509Chain r, SslPolicyErrors e) => true;
 		}
 
 		public string Username { get; protected set; }
 
 		public string Url {
-			get { return url;}
+			get { return url; }
 			set {
 				if (url == value)
 					return;
@@ -116,14 +117,14 @@ namespace Mictlanix.ProFact.Client {
 
 			using (var ws = new TimbradoSoapClient (binding, address)) {
 				var response = ws.TimbraCFDI (Username, base64Xml, id);
-				string err_number = response [1].ToString ();
-				string err_description = response [2].ToString ();
+				string err_number = response[1].ToString ();
+				string err_description = response[2].ToString ();
 
 				if (err_number != "0") {
 					throw new ProFactClientException (err_number, err_description);
 				}
 
-				xml_response = response [3].ToString ();
+				xml_response = response[3].ToString ();
 			}
 
 			var cfd = Comprobante.FromXml (xml_response);
@@ -142,9 +143,11 @@ namespace Mictlanix.ProFact.Client {
 			return new TimbreFiscalDigital {
 				UUID = tfd.UUID,
 				FechaTimbrado = tfd.FechaTimbrado,
-				selloCFD = tfd.selloCFD,
-				noCertificadoSAT = tfd.noCertificadoSAT,
-				selloSAT = tfd.selloSAT
+				SelloCFD = tfd.SelloCFD,
+				NoCertificadoSAT = tfd.NoCertificadoSAT,
+				SelloSAT = tfd.SelloSAT,
+				Leyenda = tfd.Leyenda,
+				RfcProvCertif = tfd.RfcProvCertif
 			};
 		}
 
@@ -155,14 +158,14 @@ namespace Mictlanix.ProFact.Client {
 
 			using (var ws = new TimbradoSoapClient (binding, address)) {
 				var response = ws.ObtieneCFDI (Username, issuer, uuid.ToUpper ());
-				string err_number = response [1].ToString ();
-				string err_description = response [2].ToString ();
+				string err_number = response[1].ToString ();
+				string err_description = response[2].ToString ();
 
 				if (err_number != "0") {
 					throw new ProFactClientException (err_number, err_description);
 				}
 
-				xml_response = response [3].ToString ();
+				xml_response = response[3].ToString ();
 			}
 
 			var cfd = Comprobante.FromXml (xml_response);
@@ -181,9 +184,11 @@ namespace Mictlanix.ProFact.Client {
 			return new TimbreFiscalDigital {
 				UUID = tfd.UUID,
 				FechaTimbrado = tfd.FechaTimbrado,
-				selloCFD = tfd.selloCFD,
-				noCertificadoSAT = tfd.noCertificadoSAT,
-				selloSAT = tfd.selloSAT
+				SelloCFD = tfd.SelloCFD,
+				NoCertificadoSAT = tfd.NoCertificadoSAT,
+				SelloSAT = tfd.SelloSAT,
+				Leyenda = tfd.Leyenda,
+				RfcProvCertif = tfd.RfcProvCertif
 			};
 		}
 
@@ -191,8 +196,8 @@ namespace Mictlanix.ProFact.Client {
 		{
 			using (var ws = new TimbradoSoapClient (binding, address)) {
 				var response = ws.CancelaCFDI (Username, issuer, uuid.ToUpper ());
-				string err_number = response [1].ToString ();
-				string err_description = response [2].ToString ();
+				string err_number = response[1].ToString ();
+				string err_description = response[2].ToString ();
 
 				if (err_number != "0") {
 					throw new ProFactClientException (err_number, err_description);
@@ -206,9 +211,9 @@ namespace Mictlanix.ProFact.Client {
 		{
 			using (var ws = new TimbradoSoapClient (binding, address)) {
 				var response = ws.RegistraEmisor (Username, issuer, Convert.ToBase64String (certificate),
-												  Convert.ToBase64String (privateKey), password);
-				string err_number = response [1].ToString ();
-				string err_description = response [2].ToString ();
+								  Convert.ToBase64String (privateKey), password);
+				string err_number = response[1].ToString ();
+				string err_description = response[2].ToString ();
 
 				if (err_number != "0") {
 					throw new ProFactClientException (err_number, err_description);
