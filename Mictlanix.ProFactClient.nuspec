@@ -2,22 +2,22 @@
 <package >
   <metadata>
     <id>Mictlanix.ProFactClient</id>
-    <version>0.1.0.2</version>
+    <version>3.3.0-beta</version>
     <title>Mictlanix ProFact Client</title>
-    <authors>Eddy Zavaleta, Mictlanix, and contributors</authors>
+    <authors>Eddy Zavaleta</authors>
     <owners/>
     <licenseUrl>https://github.com/mictlanix/profact-client/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/mictlanix/profact-client</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NET client library for ProFact web services (ProFact.com.mx)</description>
-    <releaseNotes>First public release.</releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <releaseNotes>CFD v3.3 support (beta).</releaseNotes>
+    <copyright>Copyright © 2017 Mictlanix SAS de CV</copyright>
     <tags>cfdi factura invoice web services api client library .net</tags>
     <dependencies>
-      <dependency id="Mictlanix.CFDLib" version="0.1.0" />
+      <dependency id="Mictlanix.CFDLib" version="3.3.0-beta" />
     </dependencies>
   </metadata>
   <files>
-	<file src="src/Mictlanix.ProFactClient/bin/Release/Mictlanix.ProFactClient.dll" target="lib\net45" />
+	<file src="src/Mictlanix.ProFactClient/bin/Release/Mictlanix.ProFactClient.dll" target="lib/net45" />
   </files>
 </package>
