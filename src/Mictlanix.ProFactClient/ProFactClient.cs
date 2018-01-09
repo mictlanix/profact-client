@@ -24,23 +24,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.Text;
-using System.Security;
 using System.Xml;
 using Mictlanix.CFDv33;
-using Mictlanix.CFDLib;
 using Mictlanix.ProFact.Client.Internals;
 
 namespace Mictlanix.ProFact.Client {
 	public class ProFactClient {
-		public static string URL_PRODUCTION = @"https://www.timbracfdi.mx/serviciointegracion/Timbrado.asmx";
+		public static string URL_PRODUCTION_V32 = @"https://www.timbracfdi.mx/serviciointegracion/Timbrado.asmx";
+		public static string URL_TEST_V32 = @"https://www.timbracfdipruebas.mx/serviciointegracionpruebas/Timbrado.asmx";
+		public static string URL_PRODUCTION = @"https://timbracfdi33.mx:1443/Timbrado.asmx";
 		public static string URL_TEST = @"https://cfdi33-pruebas.buzoncfdi.mx:1443/Timbrado.asmx";
-		//public static string URL_TEST = @"https://www.timbracfdipruebas.mx/serviciointegracionpruebas/Timbrado.asmx";
 
 		static readonly BasicHttpBinding binding = new BasicHttpBinding (BasicHttpSecurityMode.Transport) {
 			MaxBufferPoolSize = int.MaxValue,
@@ -84,6 +82,11 @@ namespace Mictlanix.ProFact.Client {
 		}
 
 		public TimbreFiscalDigital Stamp (string id, Comprobante cfd)
+		{
+			return Stamp (id, cfd.ToXmlBytes ());
+		}
+
+		public TimbreFiscalDigital Stamp (string id, CFDv32.Comprobante cfd)
 		{
 			return Stamp (id, cfd.ToXmlBytes ());
 		}
