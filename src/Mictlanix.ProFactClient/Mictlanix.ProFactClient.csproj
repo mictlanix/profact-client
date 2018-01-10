@@ -44,6 +44,7 @@
     <Compile Include="ProFactClient.cs" />
     <Compile Include="ProFactClientException.cs" />
     <Compile Include="ProFactWSClient.cs" />
+    <Compile Include="ProFactWSClientV32.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

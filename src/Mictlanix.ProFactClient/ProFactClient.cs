@@ -86,11 +86,6 @@ namespace Mictlanix.ProFact.Client {
 			return Stamp (id, cfd.ToXmlBytes ());
 		}
 
-		public TimbreFiscalDigital Stamp (string id, CFDv32.Comprobante cfd)
-		{
-			return Stamp (id, cfd.ToXmlBytes ());
-		}
-
 		public TimbreFiscalDigital Stamp (string id, string xml)
 		{
 			return Stamp (id, Encoding.UTF8.GetBytes (xml));
@@ -198,6 +193,21 @@ namespace Mictlanix.ProFact.Client {
 		public bool Cancel (string issuer, string uuid)
 		{
 			using (var ws = new TimbradoSoapClient (binding, address)) {
+				var response = ws.CancelaCFDI (Username, issuer, uuid.ToUpper ());
+				string err_number = response[1].ToString ();
+				string err_description = response[2].ToString ();
+
+				if (err_number != "0") {
+					throw new ProFactClientException (err_number, err_description);
+				}
+			}
+
+			return true;
+		}
+
+		public bool CancelV32 (string issuer, string uuid)
+		{
+			using (var ws = new Internals.V32.TimbradoSoapClient (binding, address)) {
 				var response = ws.CancelaCFDI (Username, issuer, uuid.ToUpper ());
 				string err_number = response[1].ToString ();
 				string err_description = response[2].ToString ();

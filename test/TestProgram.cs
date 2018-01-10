@@ -45,10 +45,10 @@ namespace Tests {
 
 		static void Main (string[] args)
 		{
-			StampTest ();
-//			GetStampTest ();
-//			CancelTest ();
-//			SaveIssuerTest ();
+			//StampTest ();
+			//GetStampTest ();
+			//CancelTest ();
+			//SaveIssuerTest ();
 		}
 
 		static void StampTest ()
