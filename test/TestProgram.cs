@@ -46,6 +46,7 @@ namespace Tests {
 		static void Main (string[] args)
 		{
 			//StampTest ();
+			StampNominaTest ();
 			//GetStampTest ();
 			//CancelTest ();
 			//SaveIssuerTest ();
@@ -68,6 +69,26 @@ namespace Tests {
 
 			Console.WriteLine (cfd.ToXmlString ());
 			Console.WriteLine (cfd.ToString ());
+		}
+
+		static void StampNominaTest ()
+		{
+			var cfd = CreateNominaCFD ();
+			var cli = new ProFactClient (USERNAME, ProFactClient.URL_TEST);
+
+			cfd.Sign (File.ReadAllBytes (CSD_PRIVATE_KEY_FILE), Encoding.UTF8.GetBytes (CSD_PRIVATE_KEY_PWD));
+
+			File.WriteAllText ("nomina.xml", cfd.ToXmlString ());
+
+			var tfd = cli.Stamp ("N01", cfd);
+			Console.WriteLine (tfd.ToXmlString ());
+			Console.WriteLine (tfd.ToString ());
+
+			cfd.Complemento.Add (tfd);
+
+			Console.WriteLine (cfd.ToXmlString ());
+			Console.WriteLine (cfd.ToString ());
+			File.WriteAllText ("nomina-signed.xml", cfd.ToXmlString ());
 		}
 
 		static void GetStampTest ()
@@ -226,6 +247,195 @@ namespace Tests {
 					TasaOCuota = 0.160000m
 				}
 			};
+		}
+
+		static Comprobante CreateNominaCFD ()
+		{
+			var nomina = new Nomina {
+				TipoNomina = c_TipoNomina.Ordinaria,
+				FechaPago = DateTime.Today,
+				FechaInicialPago = DateTime.Today.AddDays (-8),
+				FechaFinalPago = DateTime.Today.AddDays (-1),
+				NumDiasPagados = 7,
+				//TotalPercepciones = Percepciones.TotalSueldos + Percepciones.TotalSeparacionIndemnizacion + Percepciones.TotalJubilacionPensionRetiro,
+				//TotalPercepcionesSpecified = true,
+				//TotalDeducciones = Deducciones.TotalOtrasDeducciones + Deducciones.TotalImpuestosRetenidos,
+				//TotalDeduccionesSpecified = true,
+				//TotalOtrosPagos = 0m,
+				//TotalOtrosPagosSpecified = true,
+				Emisor = new NominaEmisor {
+					//Curp = "", // CURP del patrón en caso de persona física
+					//RegistroPatronal = "",
+					//RegistroPatronal = "B5510768108",
+					//RfcPatronOrigen = "", // RFC del patrón original en caso de jubilación o pensión
+					//EntidadSNCF = new NominaEmisorEntidadSNCF () // entidades federativas, municipios, entidades paraestatales y paramunicipales.
+				},
+				Receptor = new NominaReceptor {
+					Curp = "XEXX010101HNEXXXA4",
+					NumSeguridadSocial = "123456789",
+					//FechaInicioRelLaboral = DateTime.Today.AddYears (-1),
+					//Antiguedad = "",
+					TipoContrato = c_TipoContrato.ModalidadesDeContratacionDondeNoExisteRelacionDeTrabajo,
+					Sindicalizado = NominaReceptorSindicalizado.No,
+					TipoJornada = c_TipoJornada.Diurna,
+					TipoJornadaSpecified = true,
+					TipoRegimen = c_TipoRegimen.AsimiladosOtros,
+					NumEmpleado = "1",
+					Departamento = "ADMON",
+					//Puesto = "",
+					//RiesgoPuesto = c_RiesgoPuesto.ClaseI,
+					PeriodicidadPago = c_PeriodicidadPago.Semanal,
+					Banco = c_Banco.BANORTE_IXE,
+					//CuentaBancaria = "",
+					//SalarioBaseCotApor = 0m,
+					//SalarioDiarioIntegrado = 0m,
+					ClaveEntFed = c_Estado.MEX,
+					//SubContratacion = new NominaReceptorSubContratacion [] {
+					//	new NominaReceptorSubContratacion {
+					//		RfcLabora = "",
+					//		PorcentajeTiempo = 1.0m
+					//	}
+					//}
+				},
+				Percepciones = new NominaPercepciones {
+					TotalSueldos = 4046.52m,
+					TotalSueldosSpecified = true,
+					TotalSeparacionIndemnizacion = 0m,
+					TotalSeparacionIndemnizacionSpecified = true,
+					TotalJubilacionPensionRetiro = 0m,
+					TotalJubilacionPensionRetiroSpecified = true,
+					TotalGravado = 4046.52m,
+					TotalExento = 0m,
+					Percepcion = new NominaPercepcionesPercepcion [] {
+						new NominaPercepcionesPercepcion {
+							TipoPercepcion = c_TipoPercepcion.IngresosAsimiladosASalarios,
+							Clave = "P-001",
+							Concepto = "SUELDOS",
+							ImporteGravado = 4046.52m,
+							ImporteExento = 0m,
+							//AccionesOTitulos = new NominaPercepcionesPercepcionAccionesOTitulos ()
+							HorasExtra = new NominaPercepcionesPercepcionHorasExtra [] {
+								//new NominaPercepcionesPercepcionHorasExtra {
+								//	Dias = 0,
+								//	TipoHoras = c_TipoHoras.Simples,
+								//	HorasExtra = 0,
+								//	ImportePagado = 0
+								//}
+							}
+						}
+					},
+					//JubilacionPensionRetiro = new NominaPercepcionesJubilacionPensionRetiro {
+					//	//TotalUnaExhibicion = 0m,
+					//	//TotalParcialidad = 0m,
+					//	//MontoDiario = 0m,
+					//	IngresoAcumulable = 0m,
+					//	IngresoNoAcumulable = 0m,
+					//},
+					SeparacionIndemnizacion = new NominaPercepcionesSeparacionIndemnizacion {
+						TotalPagado = 0m,
+						NumAnosServicio = 0,
+						UltimoSueldoMensOrd = 0m,
+						IngresoAcumulable = 0m,
+						IngresoNoAcumulable = 0m
+					}
+				},
+				Deducciones = new NominaDeducciones {
+					//TotalOtrasDeducciones = 0m,
+					//TotalOtrasDeduccionesSpecified = true,
+					TotalImpuestosRetenidos = 608.97m,
+					TotalImpuestosRetenidosSpecified = true,
+					Deduccion = new NominaDeduccionesDeduccion[] {
+						new NominaDeduccionesDeduccion {
+							TipoDeduccion = c_TipoDeduccion.ISR,
+							Clave = "D-002",
+							Concepto = "ISR",
+							Importe = 608.97m
+						}
+					}
+				},
+				//OtrosPagos = new NominaOtroPago[] {
+				//	//new NominaOtroPago {
+				//	//	TipoOtroPago = c_TipoOtroPago.Viaticos,
+				//	//	Clave = "00101",
+				//	//	Concepto = "Viaticos",
+				//	//	Importe = 0m,
+				//	//	SubsidioAlEmpleo = new NominaOtroPagoSubsidioAlEmpleo {
+				//	//		SubsidioCausado = 0m
+				//	//	},
+				//	//	CompensacionSaldosAFavor = new NominaOtroPagoCompensacionSaldosAFavor {
+				//	//		SaldoAFavor = 0m,
+				//	//		Ano = 0,
+				//	//		RemanenteSalFav = 0m
+				//	//	}
+				//	//}
+				//},
+				//Incapacidades = new NominaIncapacidad [] {
+				//	//new NominaIncapacidad {
+				//	//	DiasIncapacidad = 0,
+				//	//	TipoIncapacidad = c_TipoIncapacidad.EnfermedadEnGeneral,
+				//	//	ImporteMonetario = 0m
+				//	//}
+				//}
+
+			};
+
+			nomina.TotalPercepciones = nomina.Percepciones.TotalSueldos + nomina.Percepciones.TotalSeparacionIndemnizacion + nomina.Percepciones.TotalJubilacionPensionRetiro;
+			nomina.TotalPercepcionesSpecified = true;
+
+			nomina.TotalDeducciones = nomina.Deducciones.TotalOtrasDeducciones + nomina.Deducciones.TotalImpuestosRetenidos;
+			nomina.TotalDeduccionesSpecified = true;
+
+			if(nomina.OtrosPagos != null && nomina.OtrosPagos.Any ()) {
+				nomina.TotalOtrosPagos = nomina.OtrosPagos.Sum (x => x.Importe);
+				nomina.TotalOtrosPagosSpecified = true;
+			}
+
+			var cfd = new Comprobante {
+				Serie = "N",
+				Folio = "1",
+				Fecha = TEST_DATE,
+				FormaPago = c_FormaPago.PorDefinir,
+				FormaPagoSpecified = true,
+				NoCertificado = "20001000000200001428",
+				Certificado = Convert.ToBase64String (File.ReadAllBytes (CSD_CERTIFICATE_FILE)),
+				SubTotal = nomina.TotalPercepciones + nomina.TotalOtrosPagos,
+				Descuento = nomina.TotalDeducciones,
+				DescuentoSpecified = true,
+				Moneda = "MXN",
+				Total = nomina.TotalPercepciones + nomina.TotalOtrosPagos - nomina.TotalDeducciones,
+				TipoDeComprobante = c_TipoDeComprobante.Nomina,
+				MetodoPago = c_MetodoPago.PagoEnUnaSolaExhibicion,
+				LugarExpedicion = "03810",
+				//Confirmacion = "",
+				//CfdiRelacionados = new ComprobanteCfdiRelacionados (),
+				Emisor = new ComprobanteEmisor {
+					Rfc = "AAA010101AAA",
+					Nombre = "ACME SC",
+					RegimenFiscal = c_RegimenFiscal.GeneralDeLeyPersonasMorales,
+				},
+				Receptor = new ComprobanteReceptor {
+					Rfc = "XAXX010101000",
+					Nombre = "DEMO COMPANY SC",
+					UsoCFDI = c_UsoCFDI.PorDefinir
+				},
+				Conceptos = new ComprobanteConcepto [] {
+					new ComprobanteConcepto {
+						ClaveProdServ = "84111505",
+						Cantidad = 1,
+						ClaveUnidad = "ACT",
+						Descripcion= "Pago de nómina",
+						ValorUnitario = nomina.TotalPercepciones + nomina.TotalOtrosPagos,
+						Importe = nomina.TotalPercepciones + nomina.TotalOtrosPagos,
+				                Descuento = nomina.TotalDeducciones,
+						DescuentoSpecified = true
+					}
+				},
+				Complemento = new List<object> ()
+			};
+
+			cfd.Complemento.Add (nomina);
+
+			return cfd;
 		}
 
 		#endregion
