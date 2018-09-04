@@ -205,6 +205,25 @@ namespace Mictlanix.ProFact.Client {
 			return true;
 		}
 
+		public Acuse CancelAck (string issuer, string uuid)
+		{
+			string xml_response = null;
+
+			using (var ws = new TimbradoSoapClient (binding, address)) {
+				var response = ws.CancelaCFDIAck (Username, issuer, uuid.ToUpper ());
+				string err_number = response [1].ToString ();
+				string err_description = response [2].ToString ();
+
+				if (err_number != "0") {
+					throw new ProFactClientException (err_number, err_description);
+				}
+
+				xml_response = response [3].ToString ();
+			}
+
+			return Acuse.FromXml (xml_response);
+		}
+
 		public bool CancelV32 (string issuer, string uuid)
 		{
 			using (var ws = new Internals.V32.TimbradoSoapClient (binding, address)) {

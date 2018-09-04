@@ -43,12 +43,14 @@ namespace Tests {
 							  NOW.Hour, NOW.Minute, NOW.Second, DateTimeKind.Unspecified);
 		//static DateTime TEST_DATE = new DateTime (2016, 02, 09, 10, 11, 12, DateTimeKind.Unspecified);
 
-		static void Main (string[] args)
+		static void Main (string [] args)
 		{
 			//StampTest ();
-			StampNominaTest ();
+			//StampNominaTest ();
+			StampPagosTest ();
 			//GetStampTest ();
 			//CancelTest ();
+			//CancelAckTest ();
 			//SaveIssuerTest ();
 		}
 
@@ -64,7 +66,7 @@ namespace Tests {
 			Console.WriteLine (tfd.ToXmlString ());
 			Console.WriteLine (tfd.ToString ());
 
-			cfd.Complemento = new List<object>();
+			cfd.Complemento = new List<object> ();
 			cfd.Complemento.Add (tfd);
 
 			Console.WriteLine (cfd.ToXmlString ());
@@ -91,10 +93,30 @@ namespace Tests {
 			File.WriteAllText ("nomina-signed.xml", cfd.ToXmlString ());
 		}
 
+		static void StampPagosTest ()
+		{
+			var cfd = CreatePagosCFD ();
+			var cli = new ProFactClient (USERNAME, ProFactClient.URL_TEST);
+
+			cfd.Sign (File.ReadAllBytes (CSD_PRIVATE_KEY_FILE), Encoding.UTF8.GetBytes (CSD_PRIVATE_KEY_PWD));
+
+			File.WriteAllText ("pagos.xml", cfd.ToXmlString ());
+
+			var tfd = cli.Stamp ("N01", cfd);
+			Console.WriteLine (tfd.ToXmlString ());
+			Console.WriteLine (tfd.ToString ());
+
+			cfd.Complemento.Add (tfd);
+
+			Console.WriteLine (cfd.ToXmlString ());
+			Console.WriteLine (cfd.ToString ());
+			File.WriteAllText ("pagos-signed.xml", cfd.ToXmlString ());
+		}
+
 		static void GetStampTest ()
 		{
 			var cli = new ProFactClient (USERNAME, ProFactClient.URL_TEST);
-			var tfd = cli.GetStamp ("AAA010101AAA", "B1930368-6194-447D-8F41-95FAF528E72B");
+			var tfd = cli.GetStamp ("AAA010101AAA", "1c298cf8-f360-4a7a-9a21-a74e7a9b493b");
 
 			Console.WriteLine (tfd.ToString ());
 			Console.WriteLine (tfd.ToXmlString ());
@@ -108,18 +130,27 @@ namespace Tests {
 			Console.WriteLine ("Cancel: {0}", ret);
 		}
 
+		static void CancelAckTest ()
+		{
+			var cli = new ProFactClient (USERNAME, ProFactClient.URL_TEST);
+			var ret = cli.CancelAck ("AAA010101AAA", "5fd1863f-a1eb-4c9d-a069-8a8ee0711609");
+
+			Console.WriteLine ($"Cancelación Emisor: {ret.RfcEmisor} Fecha: {ret.Fecha} Sello: {ret.Signature.SignatureValue}");
+			Console.WriteLine (ret);
+		}
+
 		static void SaveIssuerTest ()
 		{
 			var cli = new ProFactClient (USERNAME, ProFactClient.URL_TEST);
 			var ret = cli.SaveIssuer ("AAA010101AAA", File.ReadAllBytes (CSD_CERTIFICATE_FILE),
-				          			  File.ReadAllBytes (CSD_PRIVATE_KEY_FILE), CSD_PRIVATE_KEY_PWD);
+								    File.ReadAllBytes (CSD_PRIVATE_KEY_FILE), CSD_PRIVATE_KEY_PWD);
 
 			Console.WriteLine ("Save Issuer: {0}", ret);
 		}
 
 		#region Helper Functions
 
-		static Comprobante CreateCFD()
+		static Comprobante CreateCFD ()
 		{
 			var cfd = new Comprobante {
 				TipoDeComprobante = c_TipoDeComprobante.Ingreso,
@@ -143,7 +174,7 @@ namespace Tests {
 					Nombre = "DEMO COMPANY SC",
 					UsoCFDI = c_UsoCFDI.AdquisicionDeMercancias
 				},
-				Impuestos = new ComprobanteImpuestos()
+				Impuestos = new ComprobanteImpuestos ()
 			};
 
 			return cfd;
@@ -162,7 +193,7 @@ namespace Tests {
 				cfd.Conceptos = items;
 			}
 
-			cfd.Conceptos[count - 1] = new ComprobanteConcepto {
+			cfd.Conceptos [count - 1] = new ComprobanteConcepto {
 				Cantidad = qty,
 				ClaveUnidad = "H87",
 				Unidad = "Pieza",
@@ -170,9 +201,9 @@ namespace Tests {
 				ClaveProdServ = "52161500",
 				Descripcion = name,
 				ValorUnitario = amount,
-				Importe = Math.Round(qty * amount, 6),
+				Importe = Math.Round (qty * amount, 6),
 				Impuestos = new ComprobanteConceptoImpuestos {
-					Traslados = new ComprobanteConceptoImpuestosTraslado[] {
+					Traslados = new ComprobanteConceptoImpuestosTraslado [] {
 						new ComprobanteConceptoImpuestosTraslado {
 							Impuesto = c_Impuesto.IVA,
 							TipoFactor = c_TipoFactor.Tasa,
@@ -191,7 +222,7 @@ namespace Tests {
 
 			cfd.Impuestos.TotalImpuestosTrasladados = cfd.Total - cfd.SubTotal;
 			cfd.Impuestos.TotalImpuestosTrasladadosSpecified = true;
-			cfd.Impuestos.Traslados = new ComprobanteImpuestosTraslado[] {
+			cfd.Impuestos.Traslados = new ComprobanteImpuestosTraslado [] {
 				new ComprobanteImpuestosTraslado {
 					Impuesto = c_Impuesto.IVA,
 					TipoFactor = c_TipoFactor.Tasa,
@@ -205,20 +236,20 @@ namespace Tests {
 		{
 			var sum = 0m;
 
-			cfd.Conceptos = new ComprobanteConcepto[count];
+			cfd.Conceptos = new ComprobanteConcepto [count];
 
-			for(int i = 1; i <= count; i++) {
-				cfd.Conceptos[i-1] = new ComprobanteConcepto {
+			for (int i = 1; i <= count; i++) {
+				cfd.Conceptos [i - 1] = new ComprobanteConcepto {
 					Cantidad = i,
 					ClaveUnidad = "H87",
 					Unidad = "Pieza",
-					NoIdentificacion = string.Format("P{0:D4}", i),
+					NoIdentificacion = string.Format ("P{0:D4}", i),
 					ClaveProdServ = "52161500",
-					Descripcion = string.Format("{0} {1:D4}", prefix, i),
+					Descripcion = string.Format ("{0} {1:D4}", prefix, i),
 					ValorUnitario = 5m * i,
 					Importe = 5m * i * i,
 					Impuestos = new ComprobanteConceptoImpuestos {
-						Traslados = new ComprobanteConceptoImpuestosTraslado[] {
+						Traslados = new ComprobanteConceptoImpuestosTraslado [] {
 							new ComprobanteConceptoImpuestosTraslado {
 								Impuesto = c_Impuesto.IVA,
 								TipoFactor = c_TipoFactor.Tasa,
@@ -235,11 +266,11 @@ namespace Tests {
 			}
 
 			cfd.SubTotal = sum;
-			cfd.Total = Math.Round(sum * 1.16m, 6);
+			cfd.Total = Math.Round (sum * 1.16m, 6);
 
 			cfd.Impuestos.TotalImpuestosTrasladados = cfd.Total - cfd.SubTotal;
 			cfd.Impuestos.TotalImpuestosTrasladadosSpecified = true;
-			cfd.Impuestos.Traslados = new ComprobanteImpuestosTraslado[] {
+			cfd.Impuestos.Traslados = new ComprobanteImpuestosTraslado [] {
 				new ComprobanteImpuestosTraslado {
 					Impuesto = c_Impuesto.IVA,
 					TipoFactor = c_TipoFactor.Tasa,
@@ -344,7 +375,7 @@ namespace Tests {
 					//TotalOtrasDeduccionesSpecified = true,
 					TotalImpuestosRetenidos = 608.97m,
 					TotalImpuestosRetenidosSpecified = true,
-					Deduccion = new NominaDeduccionesDeduccion[] {
+					Deduccion = new NominaDeduccionesDeduccion [] {
 						new NominaDeduccionesDeduccion {
 							TipoDeduccion = c_TipoDeduccion.ISR,
 							Clave = "D-002",
@@ -385,7 +416,7 @@ namespace Tests {
 			nomina.TotalDeducciones = nomina.Deducciones.TotalOtrasDeducciones + nomina.Deducciones.TotalImpuestosRetenidos;
 			nomina.TotalDeduccionesSpecified = true;
 
-			if(nomina.OtrosPagos != null && nomina.OtrosPagos.Any ()) {
+			if (nomina.OtrosPagos != null && nomina.OtrosPagos.Any ()) {
 				nomina.TotalOtrosPagos = nomina.OtrosPagos.Sum (x => x.Importe);
 				nomina.TotalOtrosPagosSpecified = true;
 			}
@@ -426,7 +457,7 @@ namespace Tests {
 						Descripcion= "Pago de nómina",
 						ValorUnitario = nomina.TotalPercepciones + nomina.TotalOtrosPagos,
 						Importe = nomina.TotalPercepciones + nomina.TotalOtrosPagos,
-				                Descuento = nomina.TotalDeducciones,
+						Descuento = nomina.TotalDeducciones,
 						DescuentoSpecified = true
 					}
 				},
@@ -434,6 +465,100 @@ namespace Tests {
 			};
 
 			cfd.Complemento.Add (nomina);
+
+			return cfd;
+		}
+
+		static Comprobante CreatePagosCFD ()
+		{
+			var pagos = new Pagos {
+				Pago = new PagosPago[] {
+					new PagosPago {
+						FechaPago = TEST_DATE.AddDays(-3),
+						FormaDePagoP = c_FormaPago.Efectivo,
+						MonedaP = "MXN",
+						//TipoCambioP = 1,
+						//TipoCambioPSpecified = true,
+						Monto = 10.00m,
+						NumOperacion = "0000051",
+						//RfcEmisorCtaOrd = "BNM840515VB1", // ProFact Error: El campo RfcEmisorCtaOrd no se debe registrar.
+						NomBancoOrdExt = "Citibanamex",
+						//CtaOrdenante = "123456789101112131", // ProFact Error: El campo CtaOrdenante no se debe registrar. 
+						//RfcEmisorCtaBen = "BBA830831LJ2", // BBVA Bancomer (ProFact Error: El campo RfcEmisorCtaBen no se debe registrar. )
+						//CtaBeneficiario = "123456789101114558", // ProFact Error: El campo CtaBeneficiario no se debe registrar. 
+						//TipoCadPago = c_TipoCadenaPago.SPEI,
+						//TipoCadPagoSpecified = true,
+						//CertPago = Encoding.UTF8.GetBytes (""), // certificado que corresponde al pago, como una cadena de texto en formato base 64
+						//CadPago = "||Pago|Banco|300.00||",      // cadena original del comprobante de pago generado por la entidad emisora de la cuenta beneficiaria
+						//SelloPago = Encoding.UTF8.GetBytes (""),// sello digital que se asocie al pago
+						DoctoRelacionado = new PagosPagoDoctoRelacionado [] {
+							new PagosPagoDoctoRelacionado {
+								IdDocumento = "B1930368-6194-447D-8F41-95FAF528E72B",
+								Serie = "A",
+								Folio = "1",
+								MonedaDR = "MXN",
+								TipoCambioDR = 1.0m,
+								MetodoDePagoDR = c_MetodoPago.PagoEnParcialidadesODiferido,
+								NumParcialidad = "1",
+								ImpSaldoAnt = 81.20m,
+								ImpSaldoAntSpecified = true,
+								ImpPagado = 10.00m,
+								ImpPagadoSpecified = true
+							}
+						}
+					}
+				}
+			};
+
+			foreach (var doc in pagos.Pago [0].DoctoRelacionado) {
+				doc.ImpSaldoInsoluto = doc.ImpSaldoAnt - doc.ImpPagado;
+				doc.ImpSaldoInsolutoSpecified = true;
+			}
+
+			var cfd = new Comprobante {
+				Serie = "P",
+				Folio = "1",
+				Fecha = TEST_DATE,
+				Sello = null,
+				NoCertificado = "20001000000200001428",
+				Certificado = Convert.ToBase64String (File.ReadAllBytes (CSD_CERTIFICATE_FILE)),
+				SubTotal = 0,
+				Moneda = "XXX",
+				Total = 0,
+				TipoDeComprobante = c_TipoDeComprobante.Pago,
+				LugarExpedicion = "03810", // código postal
+				//CfdiRelacionados = new ComprobanteCfdiRelacionados {
+				//	TipoRelacion = c_TipoRelacion.Sustitucion,
+				//	CfdiRelacionado = new ComprobanteCfdiRelacionadosCfdiRelacionado [] {
+				//		new ComprobanteCfdiRelacionadosCfdiRelacionado {
+				//			UUID = "B1930368-6194-447D-8F41-95FAF528E72B"
+				//		}
+				//	}
+				//},
+				Emisor = new ComprobanteEmisor {
+					Rfc = "AAA010101AAA",
+					Nombre = "ACME SC",
+					RegimenFiscal = c_RegimenFiscal.GeneralDeLeyPersonasMorales,
+				},
+				Receptor = new ComprobanteReceptor {
+					Rfc = "XAXX010101000",
+					Nombre = "DEMO COMPANY SC",
+					UsoCFDI = c_UsoCFDI.PorDefinir
+				},
+				Conceptos = new ComprobanteConcepto [] {
+					new ComprobanteConcepto {
+						ClaveProdServ = "84111506",
+						Cantidad = 1,
+						ClaveUnidad = "ACT",
+						Descripcion = "Pago",
+						ValorUnitario = 0,
+						Importe = 0
+					}
+				},
+				Complemento = new List<object> ()
+			};
+
+			cfd.Complemento.Add (pagos);
 
 			return cfd;
 		}

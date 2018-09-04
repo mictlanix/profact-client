@@ -1,6 +1,7 @@
 Packages
 bin
 obj
+.vs
 *.suo
 *.userprefs
 *.pidb
