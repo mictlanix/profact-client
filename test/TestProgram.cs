@@ -46,8 +46,8 @@ namespace Tests {
 		static void Main (string [] args)
 		{
 			//StampTest ();
-			//StampNominaTest ();
-			StampPagosTest ();
+			StampNominaTest ();
+			//StampPagosTest ();
 			//GetStampTest ();
 			//CancelTest ();
 			//CancelAckTest ();
@@ -413,8 +413,12 @@ namespace Tests {
 			nomina.TotalPercepciones = nomina.Percepciones.TotalSueldos + nomina.Percepciones.TotalSeparacionIndemnizacion + nomina.Percepciones.TotalJubilacionPensionRetiro;
 			nomina.TotalPercepcionesSpecified = true;
 
-			nomina.TotalDeducciones = nomina.Deducciones.TotalOtrasDeducciones + nomina.Deducciones.TotalImpuestosRetenidos;
-			nomina.TotalDeduccionesSpecified = true;
+			if (nomina.Deducciones.Deduccion == null || nomina.Deducciones.Deduccion.Length > 0) {
+				nomina.Deducciones = null;
+			} else {
+				nomina.TotalDeducciones = nomina.Deducciones.TotalOtrasDeducciones + nomina.Deducciones.TotalImpuestosRetenidos;
+				nomina.TotalDeduccionesSpecified = true;
+			}
 
 			if (nomina.OtrosPagos != null && nomina.OtrosPagos.Any ()) {
 				nomina.TotalOtrosPagos = nomina.OtrosPagos.Sum (x => x.Importe);
@@ -431,7 +435,7 @@ namespace Tests {
 				Certificado = Convert.ToBase64String (File.ReadAllBytes (CSD_CERTIFICATE_FILE)),
 				SubTotal = nomina.TotalPercepciones + nomina.TotalOtrosPagos,
 				Descuento = nomina.TotalDeducciones,
-				DescuentoSpecified = true,
+				DescuentoSpecified = nomina.TotalDeduccionesSpecified,
 				Moneda = "MXN",
 				Total = nomina.TotalPercepciones + nomina.TotalOtrosPagos - nomina.TotalDeducciones,
 				TipoDeComprobante = c_TipoDeComprobante.Nomina,
@@ -458,7 +462,7 @@ namespace Tests {
 						ValorUnitario = nomina.TotalPercepciones + nomina.TotalOtrosPagos,
 						Importe = nomina.TotalPercepciones + nomina.TotalOtrosPagos,
 						Descuento = nomina.TotalDeducciones,
-						DescuentoSpecified = true
+						DescuentoSpecified = nomina.TotalDeduccionesSpecified
 					}
 				},
 				Complemento = new List<object> ()
